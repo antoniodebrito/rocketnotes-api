@@ -4,12 +4,12 @@ class NotesController {
 
   async create(req, res) {
     const { title, description, tags, links } = req.body;
-    const { user_id } = req.params;
+    const { users_id } = req.params;
 
     const note_id = await knex("notes").insert({
       title,
       description,
-      user_id
+      users_id
     });
 
     const linksInsert = links.map(link => {
@@ -24,12 +24,12 @@ class NotesController {
     const tagsInsert = tags.map(name => {
       note_id,
       name,
-      user_id
+      users_id
     });
 
     await knex("tags").insert(tagsInsert)
 
-    res.status(201).json({ title, description, tags, links });
+    res.status(201).json();
   }
 }
 

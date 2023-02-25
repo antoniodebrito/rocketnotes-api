@@ -29,7 +29,26 @@ class NotesController {
 
     await knex("tags").insert(tagsInsert)
 
-    res.status(201).json();
+    return res.status(201).json();
+  }
+
+  async show(req, res) {
+    const {id} = req.params;
+
+    const notes = await knex("notes").where({ id }).first();
+    const tags = await knex("tags")
+                        .where({ note_id: id })
+                        .orderBy("name");
+    const links =  await knex("links")
+                    .where({ note_id: id })
+                    .orderBy("created_at")
+      
+
+    return res.json({
+      ...notes,
+      tags,
+      links
+    })
   }
 }
 

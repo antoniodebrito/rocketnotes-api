@@ -4,8 +4,12 @@ const NotesController = require("../controller/NotesController");
 
 const notesController = new NotesController();
 
+const ensureAuthenticated = require("../middlewares/ensureAuthenticated");
+
+notesRoutes.use(ensureAuthenticated);
+
 notesRoutes.get("/", notesController.index);
-notesRoutes.post("/:users_id", notesController.create);
+notesRoutes.post("/", notesController.create);
 notesRoutes.get("/:id", notesController.show);
 notesRoutes.delete("/:id", notesController.delete);
 
